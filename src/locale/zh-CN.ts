@@ -1,4 +1,3 @@
-import localeMessageBox from '@/components/message-box/locale/zh-CN';
 import localeLogin from '@/views/login/locale/zh-CN';
 
 import localeWorkplace from '@/views/dashboard/workplace/locale/zh-CN';
@@ -7,6 +6,7 @@ import localeSettings from './zh-CN/settings';
 
 export default {
   'menu.dashboard': '仪表盘',
+  'menu.personnel': '人员管理',
   'menu.server.dashboard': '仪表盘-服务端',
   'menu.server.workplace': '工作台-服务端',
   'menu.server.monitor': '实时监控-服务端',
@@ -21,8 +21,11 @@ export default {
   'menu.faq': '常见问题',
   'navbar.docs': '文档中心',
   'navbar.action.locale': '切换为中文',
+  'messageBox.switchRoles': '切换角色',
+  'messageBox.userCenter': '用户中心',
+  'messageBox.userSettings': '用户设置',
+  'messageBox.logout': '登出登录',
   ...localeSettings,
-  ...localeMessageBox,
   ...localeLogin,
   ...localeWorkplace,
 };

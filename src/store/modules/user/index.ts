@@ -1,10 +1,5 @@
 import { defineStore } from 'pinia';
-import {
-  login as userLogin,
-  logout as userLogout,
-  getUserInfo,
-  LoginData,
-} from '@/api/user';
+import { login as userLogin, LoginData } from '@/api/user';
 import { setToken, clearToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
 import { UserState } from './types';
@@ -39,28 +34,21 @@ const useUserStore = defineStore('user', {
   actions: {
     switchRoles() {
       return new Promise((resolve) => {
-        this.role = this.role === 'user' ? 'admin' : 'user';
+        this.role = this.role === '0' ? 'admin' : 'user';
         resolve(this.role);
       });
     },
-    // Set user's information
+    // 设置用户信息
     setInfo(partial: Partial<UserState>) {
       this.$patch(partial);
     },
 
-    // Reset user's information
+    // 重置用户的信息
     resetInfo() {
       this.$reset();
     },
 
-    // Get user's information
-    async info() {
-      const res = await getUserInfo();
-
-      this.setInfo(res.data);
-    },
-
-    // Login
+    // 登录
     async login(loginForm: LoginData) {
       try {
         const res = await userLogin(loginForm);
@@ -76,14 +64,6 @@ const useUserStore = defineStore('user', {
       clearToken();
       removeRouteListener();
       appStore.clearServerMenu();
-    },
-    // Logout
-    async logout() {
-      try {
-        await userLogout();
-      } finally {
-        this.logoutCallBack();
-      }
     },
   },
 });

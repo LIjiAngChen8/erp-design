@@ -22,7 +22,7 @@ export const appExternalRoutes: RouteRecordNormalized[] = formatModules(
   []
 );
 
-// Avoid circular references, put here
+// 避免循环引用，放在这里
 
 export const DEFAULT_ROUTE_NAME = 'Workplace';
 

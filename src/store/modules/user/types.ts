@@ -1,4 +1,4 @@
-export type RoleType = '' | '*' | 'admin' | 'user';
+export type RoleType = '' | '0' | 'admin' | 'user'; // 0超级管理员、1管理员、2普通用户
 export interface UserState {
   name?: string;
   avatar?: string;

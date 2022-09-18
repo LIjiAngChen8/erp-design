@@ -37,7 +37,6 @@
           <a-layout-content>
             <PageLayout />
           </a-layout-content>
-          <Footer v-if="footer" />
         </a-layout>
       </a-layout>
     </a-layout>
@@ -50,7 +49,6 @@
   import { useAppStore, useUserStore } from '@/store';
   import NavBar from '@/components/navbar/index.vue';
   import Menu from '@/components/menu/index.vue';
-  import Footer from '@/components/footer/index.vue';
   import TabBar from '@/components/tab-bar/index.vue';
   import usePermission from '@/hooks/permission';
   import useResponsive from '@/hooks/responsive';
@@ -66,7 +64,6 @@
   const navbar = computed(() => appStore.navbar);
   const renderMenu = computed(() => appStore.menu);
   const hideMenu = computed(() => appStore.hideMenu);
-  const footer = computed(() => appStore.footer);
   const menuWidth = computed(() => {
     return appStore.menuCollapse ? 48 : appStore.menuWidth;
   });
@@ -125,6 +122,7 @@
     z-index: 99;
     height: 100%;
     transition: all 0.2s cubic-bezier(0.34, 0.69, 0.1, 1);
+
     &::after {
       position: absolute;
       top: 0;
@@ -145,6 +143,7 @@
     height: 100%;
     overflow: auto;
     overflow-x: hidden;
+
     :deep(.arco-menu) {
       ::-webkit-scrollbar {
         width: 12px;
@@ -152,10 +151,10 @@
       }
 
       ::-webkit-scrollbar-thumb {
-        border: 4px solid transparent;
-        background-clip: padding-box;
-        border-radius: 7px;
         background-color: var(--color-text-4);
+        background-clip: padding-box;
+        border: 4px solid transparent;
+        border-radius: 7px;
       }
 
       ::-webkit-scrollbar-thumb:hover {

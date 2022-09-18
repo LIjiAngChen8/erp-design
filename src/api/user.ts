@@ -3,15 +3,16 @@ import type { RouteRecordNormalized } from 'vue-router';
 import { UserState } from '@/store/modules/user/types';
 
 export interface LoginData {
-  username: string;
-  password: string;
+  idCard: string; // 身份证
+  password: string; // 密码
+  verify: string; // 验证码
 }
 
 export interface LoginRes {
   token: string;
 }
 export function login(data: LoginData) {
-  return axios.post<LoginRes>('/api/user/login', data);
+  return axios.post<LoginRes>('/user/login', data);
 }
 
 export function logout() {
