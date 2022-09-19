@@ -1,7 +1,6 @@
 import type { RouteRecordNormalized } from 'vue-router';
 
 const modules = import.meta.globEager('./modules/*.ts');
-const externalModules = import.meta.globEager('./externalModules/*.ts');
 
 function formatModules(_modules: any, result: RouteRecordNormalized[]) {
   Object.keys(_modules).forEach((key) => {
@@ -16,11 +15,6 @@ function formatModules(_modules: any, result: RouteRecordNormalized[]) {
 }
 
 export const appRoutes: RouteRecordNormalized[] = formatModules(modules, []);
-
-export const appExternalRoutes: RouteRecordNormalized[] = formatModules(
-  externalModules,
-  []
-);
 
 // 避免循环引用，放在这里
 

@@ -23,23 +23,23 @@
   const list = [
     {
       type: 'orangered',
-      label: '活动',
-      content: '内容最新优惠活动',
+      label: '异常',
+      content: 'xx订单状态异常',
     },
     {
       type: 'cyan',
       label: '消息',
-      content: '新增内容尚未通过审核，详情请点击查看。',
+      content: '新增员工尚未通过审核，详情请点击查看。',
     },
     {
       type: 'blue',
       label: '通知',
-      content: '当前产品试用期即将结束，如需续费请点击查看。',
+      content: '当前产品交付即将结束，请点击查看。',
     },
     {
       type: 'blue',
       label: '通知',
-      content: '1月新系统升级计划通知',
+      content: '员工节假日安排计划',
     },
     {
       type: 'cyan',
@@ -56,15 +56,16 @@
     width: 100%;
     height: 24px;
     margin-bottom: 4px;
+
     .item-content {
       flex: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
       margin-left: 4px;
+      overflow: hidden;
       color: var(--color-text-2);
-      text-decoration: none;
       font-size: 13px;
+      white-space: nowrap;
+      text-decoration: none;
+      text-overflow: ellipsis;
       cursor: pointer;
     }
   }

@@ -2,11 +2,15 @@ import localeLogin from '@/views/login/locale/en-US';
 
 import localeWorkplace from '@/views/dashboard/workplace/locale/en-US';
 
+import localeAudit from '@/views/personnel/audit/locale/en-US';
 import localeSettings from './en-US/settings';
 
 export default {
   'menu.dashboard': 'Dashboard',
   'menu.personnel': 'Personnel',
+  'menu.warehouse': 'Warehouse',
+  'menu.warehouse.creatOrder': 'Creat-Order',
+  'menu.warehouse.orderCtenter': 'Order-Ctenter',
   'menu.server.dashboard': 'Dashboard-Server',
   'menu.server.workplace': 'Workplace-Server',
   'menu.server.monitor': 'Monitor-Server',
@@ -27,4 +31,5 @@ export default {
   ...localeSettings,
   ...localeLogin,
   ...localeWorkplace,
+  ...localeAudit,
 };

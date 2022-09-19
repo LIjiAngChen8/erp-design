@@ -35,7 +35,7 @@
         >
           <template #columns>
             <a-table-column title="排名" data-index="key"></a-table-column>
-            <a-table-column title="内容标题" data-index="title">
+            <a-table-column title="产品名" data-index="title">
               <template #cell="{ record }">
                 <a-typography-paragraph
                   :ellipsis="{
@@ -46,7 +46,7 @@
                 </a-typography-paragraph>
               </template>
             </a-table-column>
-            <a-table-column title="点击量" data-index="clickNumber">
+            <a-table-column title="订单量" data-index="clickNumber">
             </a-table-column>
             <a-table-column
               title="日涨幅"
@@ -102,15 +102,19 @@
   .general-card {
     min-height: 395px;
   }
+
   :deep(.arco-table-tr) {
     height: 44px;
+
     .arco-typography {
       margin-bottom: 0;
     }
   }
+
   .increases-cell {
     display: flex;
     align-items: center;
+
     span {
       margin-right: 4px;
     }

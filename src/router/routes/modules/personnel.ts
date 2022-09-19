@@ -9,7 +9,7 @@ const PERSONNEL: AppRouteRecordRaw = {
   meta: {
     locale: 'menu.personnel',
     requiresAuth: true,
-    icon: 'icon-dashboard',
+    icon: 'icon-user-group',
   },
   children: [
     {

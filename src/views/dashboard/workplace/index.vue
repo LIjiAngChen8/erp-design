@@ -33,9 +33,6 @@
         <a-grid-item class="panel" :span="24">
           <Announcement />
         </a-grid-item>
-        <a-grid-item class="panel" :span="24">
-          <Docs />
-        </a-grid-item>
       </a-grid>
     </div>
   </div>
@@ -51,7 +48,6 @@
   import QuickOperation from './components/quick-operation.vue';
   import Announcement from './components/announcement.vue';
   import Carousel from './components/carousel.vue';
-  import Docs from './components/docs.vue';
 </script>
 
 <script lang="ts">
@@ -62,10 +58,10 @@
 
 <style lang="less" scoped>
   .container {
-    background-color: var(--color-fill-2);
+    display: flex;
     padding: 16px 20px;
     padding-bottom: 0;
-    display: flex;
+    background-color: var(--color-fill-2);
   }
 
   .left-side {
@@ -79,21 +75,24 @@
   }
 
   .panel {
+    overflow: auto;
     background-color: var(--color-bg-2);
     border-radius: 4px;
-    overflow: auto;
   }
+
   :deep(.panel-border) {
     margin-bottom: 0;
     border-bottom: 1px solid rgb(var(--gray-2));
   }
+
   .moduler-wrap {
-    border-radius: 4px;
     background-color: var(--color-bg-2);
+    border-radius: 4px;
+
     :deep(.text) {
+      color: rgb(var(--gray-8));
       font-size: 12px;
       text-align: center;
-      color: rgb(var(--gray-8));
     }
 
     :deep(.wrapper) {
@@ -106,11 +105,13 @@
           margin-bottom: 0;
         }
       }
+
       &:hover {
         .icon {
           color: rgb(var(--arcoblue-6));
           background-color: #e8f3ff;
         }
+
         .text {
           color: rgb(var(--arcoblue-6));
         }
@@ -123,8 +124,8 @@
       height: 32px;
       margin-bottom: 4px;
       color: rgb(var(--dark-gray-1));
-      line-height: 32px;
       font-size: 16px;
+      line-height: 32px;
       text-align: center;
       background-color: rgb(var(--gray-1));
       border-radius: 4px;
@@ -138,11 +139,12 @@
     .container {
       display: block;
     }
+
     .right-side {
       // display: none;
       width: 100%;
-      margin-left: 0;
       margin-top: 16px;
+      margin-left: 0;
     }
   }
 </style>
