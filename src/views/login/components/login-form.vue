@@ -86,8 +86,8 @@
         <div class="login-form-password-actions">
           <a-checkbox
             checked="rememberPassword"
-            :model-value="loginConfig.rememberPassword"
-            @change="(setRememberPassword as any)"
+            :model-value="loginConfig.remember"
+            @change="(setRemember as any)"
           >
             {{ $t('login.form.rememberPassword') }}
           </a-checkbox>
@@ -120,19 +120,22 @@
   const { t } = useI18n();
   const { loading, setLoading } = useLoading();
   const userStore = useUserStore();
-  const verifyUrl = ref('http://124.221.96.103:8088/verify');
+  const verifyUrl = ref('http://124.221.96.103:8088/api/verify');
   const loginConfig = useStorage('login-config', {
-    rememberPassword: false,
-    idCard: '123456',
+    remember: false,
+    idCard: 'MTIzNDU2',
     password: '',
   });
   const userInfo = reactive({
-    idCard: decode(loginConfig.value.idCard),
-    password: loginConfig.value.rememberPassword
+    idCard: loginConfig.value.idCard ? decode(loginConfig.value.idCard) : '',
+    password: loginConfig.value.remember
       ? decode(loginConfig.value.password)
       : '',
     verify: '',
   });
+  /**
+   * 设置本地存储-加密
+   */
   const setLoginConfig = () => {
     loginConfig.value.idCard = encode(userInfo.idCard);
     loginConfig.value.password = encode(userInfo.password);
@@ -142,7 +145,7 @@
    */
   const changeVerify = () => {
     userInfo.verify = '';
-    verifyUrl.value = `http://124.221.96.103:8088/verify?${new Date().getTime()}`;
+    verifyUrl.value = `http://124.221.96.103:8088/api/verify?${new Date().getTime()}`;
   };
   const handleSubmit = async ({
     errors,
@@ -159,6 +162,7 @@
         router.push({ name: 'Workplace' });
         Message.success(t('login.form.login.success'));
       } finally {
+        changeVerify();
         setLoading(false);
       }
     }
@@ -167,8 +171,8 @@
    * 设置记住密码
    * @param value 是否记住
    */
-  const setRememberPassword = (value: boolean) => {
-    loginConfig.value.rememberPassword = value;
+  const setRemember = (value: boolean) => {
+    loginConfig.value.remember = value;
   };
 </script>
 
@@ -224,15 +228,17 @@
     &-sub-title {
       color: var(--color-text-1);
       font-weight: 500;
-      font-size: 35px;
+      font-size: 30px;
       line-height: 35px;
+      text-align: center;
     }
 
     &-introduce {
-      margin: 40px 0;
+      margin: 35px;
       color: var(--color-text-3);
       font-size: 16px;
       line-height: 24px;
+      text-align: center;
     }
 
     &-password-actions {

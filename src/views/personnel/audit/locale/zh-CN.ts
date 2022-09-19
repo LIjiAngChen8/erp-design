@@ -1,7 +1,7 @@
 export default {
-  'audit.table.title': '新注册员工审批表',
-  'audit.form.idCard': '身份证号码',
-  'audit.form.idCard.placeholder': '身份证号码',
+  'audit.table.title': '新员工注册审批表',
+  'audit.form.idCard': '身份证',
+  'audit.form.idCard.placeholder': '18位身份证号码',
   'audit.form.userName': '姓名',
   'audit.form.userName.placeholder': '李四',
   'audit.form.status': '状态',
