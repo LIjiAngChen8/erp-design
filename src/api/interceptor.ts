@@ -22,6 +22,7 @@ axios.interceptors.request.use(
         config.headers = {};
       }
       config.headers.Authorization = `Bearer ${token}`;
+      config.headers.token = `${token}`;
     }
     return config;
   },
@@ -43,7 +44,7 @@ axios.interceptors.response.use(
   },
   (error) => {
     Message.error({
-      content: error.msg || 'Request Error',
+      content: error.msg || '请求失败',
       duration: 5 * 1000,
     });
     return Promise.reject(error);

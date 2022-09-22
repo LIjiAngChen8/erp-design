@@ -9,6 +9,7 @@ export default {
   'audit.operation.download': 'Download',
   'audit.form.search': 'Search',
   'audit.form.reset': 'Reset',
+  'audit.form.status.all': 'All',
   'audit.form.status.pass': 'Pass',
   'audit.form.status.disable': 'Disable',
   'audit.form.status.deactivate': 'Deactivate',
