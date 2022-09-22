@@ -85,7 +85,7 @@
       <a-space :size="16" direction="vertical">
         <div class="login-form-password-actions">
           <a-checkbox
-            checked="rememberPassword"
+            checked="remember"
             :model-value="loginConfig.remember"
             @change="(setRemember as any)"
           >
@@ -123,11 +123,11 @@
   const verifyUrl = ref('http://124.221.96.103:8088/api/verify');
   const loginConfig = useStorage('login-config', {
     remember: false,
-    idCard: 'MTIzNDU2',
+    idCard: '',
     password: '',
   });
   const userInfo = reactive({
-    idCard: loginConfig.value.idCard ? decode(loginConfig.value.idCard) : '',
+    idCard: loginConfig.value.remember ? decode(loginConfig.value.idCard) : '',
     password: loginConfig.value.remember
       ? decode(loginConfig.value.password)
       : '',
