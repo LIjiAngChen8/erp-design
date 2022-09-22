@@ -1,16 +1,11 @@
 import { computed } from 'vue';
 import { RouteRecordRaw, RouteRecordNormalized } from 'vue-router';
 import usePermission from '@/hooks/permission';
-import { useAppStore } from '@/store';
 import appClientMenus from '@/router/appMenus';
 
 export default function useMenuTree() {
   const permission = usePermission();
-  const appStore = useAppStore();
   const appRoute = computed(() => {
-    if (appStore.menuFromServer) {
-      return appStore.appAsyncMenus;
-    }
     return appClientMenus;
   });
   const menuTree = computed(() => {
@@ -20,32 +15,30 @@ export default function useMenuTree() {
     });
     function travel(_routes: RouteRecordRaw[], layer: number) {
       if (!_routes) return null;
-
       const collector: any = _routes.map((element) => {
-        // no access
+        // 没有访问
         if (!permission.accessRouter(element)) {
           return null;
         }
 
-        // leaf node
+        // 叶子结点
         if (element.meta?.hideChildrenInMenu || !element.children) {
           element.children = [];
           return element;
         }
-
-        // route filter hideInMenu true
+        // 过滤hideInMenu为真的
         element.children = element.children.filter(
           (x) => x.meta?.hideInMenu !== true
         );
 
-        // Associated child node
+        // 相关的子节点
         const subItem = travel(element.children, layer + 1);
 
         if (subItem.length) {
           element.children = subItem;
           return element;
         }
-        // the else logic
+        // 其他
         if (layer > 1) {
           element.children = subItem;
           return element;

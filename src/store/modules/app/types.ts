@@ -3,13 +3,13 @@ export interface AppState {
   colorWeak: boolean;
   navbar: boolean;
   menu: boolean;
-  hideMenu: boolean;
+  hideMenu: boolean; // 隐藏菜单栏
   menuCollapse: boolean;
   themeColor: string;
   menuWidth: number;
   globalSettings: boolean;
-  device: string;
+  device: string; // 设备
   tabBar: boolean;
-  menuFromServer: boolean;
+  // menuFromServer: boolean;
   [key: string]: unknown;
 }

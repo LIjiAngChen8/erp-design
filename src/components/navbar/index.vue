@@ -153,7 +153,7 @@
               </a-space>
             </a-doption>
             <a-doption>
-              <a-space @click="handleLogout">
+              <a-space @click="logout()">
                 <icon-export />
                 <span>
                   {{ $t('messageBox.logout') }}
@@ -194,7 +194,6 @@
     valueLight: 'light',
     storageKey: 'arco-theme',
     onChanged(dark: boolean) {
-      // overridden default behavior
       appStore.toggleTheme(dark);
     },
   });
@@ -206,9 +205,6 @@
     appStore.updateSettings({ globalSettings: true });
   };
   const triggerBtn = ref();
-  const handleLogout = () => {
-    logout();
-  };
   const setDropDownVisible = () => {
     const event = new MouseEvent('click', {
       view: window,

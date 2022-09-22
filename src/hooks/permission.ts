@@ -12,6 +12,7 @@ export default function usePermission() {
         route.meta?.roles?.includes(userStore.role)
       );
     },
+    // 查找第一权限的理由
     findFirstPermissionRoute(_routers: any, role = 'admin') {
       const cloneRouters = [..._routers];
       while (cloneRouters.length) {
@@ -28,6 +29,5 @@ export default function usePermission() {
       }
       return null;
     },
-    // You can add any rules you want
   };
 }

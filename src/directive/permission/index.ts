@@ -9,14 +9,13 @@ function checkPermission(el: HTMLElement, binding: DirectiveBinding) {
   if (Array.isArray(value)) {
     if (value.length > 0) {
       const permissionValues = value;
-
       const hasPermission = permissionValues.includes(role);
       if (!hasPermission && el.parentNode) {
         el.parentNode.removeChild(el);
       }
     }
   } else {
-    throw new Error(`need roles! Like v-permission="['admin','user']"`);
+    throw new Error(`格式需:v-permission="['admin','user']"`);
   }
 }
 
