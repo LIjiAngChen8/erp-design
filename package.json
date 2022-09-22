@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@arco-design/web-vue": "^2.37.1",
-    "@types/mockjs": "^1.0.4",
     "@vueuse/core": "^7.3.0",
     "arco-design-pro-vue": "^2.5.7",
     "axios": "^0.24.0",
@@ -69,7 +68,6 @@
     "husky": "^7.0.4",
     "less": "^4.1.2",
     "lint-staged": "^11.2.6",
-    "mockjs": "^1.1.0",
     "prettier": "^2.2.1",
     "rollup-plugin-visualizer": "^5.6.0",
     "stylelint": "^13.8.0",
