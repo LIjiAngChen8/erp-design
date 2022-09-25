@@ -1,6 +1,9 @@
 export default {
   'menu.dashboard.workplace': '工作台',
+  //
   'menu.personnel.audit': '新注册审核',
+  'menu.personnel.marage': '用户管理',
+  //
   'workplace.welcome': '欢迎回来！',
   'workplace.balance': '余额（元）',
   'workplace.order.pending': '待支付',

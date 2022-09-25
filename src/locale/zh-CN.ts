@@ -2,11 +2,12 @@ import localeLogin from '@/views/login/locale/zh-CN';
 
 import localeWorkplace from '@/views/dashboard/workplace/locale/zh-CN';
 import localeAudit from '@/views/personnel/audit/locale/zh-CN';
+import localeUserManage from '@/views/personnel/manage/locale/zh-CN';
 import localeSettings from './zh-CN/settings';
 
 export default {
   'menu.dashboard': '总控台',
-  'menu.personnel': '人员管理',
+  'menu.personnel': '用户中心',
   'menu.warehouse': '仓库管理',
   'menu.warehouse.creatOrder': '新建订单',
   'menu.warehouse.orderCtenter': '订单中心',
@@ -32,4 +33,5 @@ export default {
   ...localeLogin,
   ...localeWorkplace,
   ...localeAudit,
+  ...localeUserManage,
 };

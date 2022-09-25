@@ -22,6 +22,17 @@ const PERSONNEL: AppRouteRecordRaw = {
         roles: ['*'],
       },
     },
+    {
+      path: 'manage',
+      name: 'manage',
+      component: () => import('@/views/personnel/manage/index.vue'),
+      meta: {
+        locale: 'menu.personnel.marage',
+        requiresAuth: true,
+        order: 0,
+        roles: ['*'],
+      },
+    },
   ],
 };
 

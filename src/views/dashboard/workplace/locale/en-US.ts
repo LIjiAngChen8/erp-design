@@ -1,6 +1,9 @@
 export default {
   'menu.dashboard.workplace': 'Workplace',
+  //
   'menu.personnel.audit': 'EmployeeRegistration',
+  'menu.personnel.marage': 'UserMarage',
+  //
   'workplace.welcome': 'Welcome!',
   'workplace.balance': 'Balance (CNY)',
   'workplace.order.pending': 'Pending',
