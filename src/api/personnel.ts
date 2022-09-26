@@ -14,10 +14,15 @@ export interface Res {
   size: number;
   total: number;
 }
+export interface UpDateRes {
+  code: number;
+  msg: string;
+}
 
 export interface updateData {
-  id: string;
-  status: string;
+  // id: string;
+  // status: string;
+  [prop: string]: string;
 }
 // 获取注册人员
 export function getNewRegister(data: PagingData) {
@@ -29,5 +34,5 @@ export function getUserList(data: PagingData) {
 }
 // 更新用户状态
 export function updateUser(data: updateData) {
-  return axios.post<Res>('/api/user/updateUser', data);
+  return axios.post<UpDateRes>('/api/user/updateUser', data);
 }
