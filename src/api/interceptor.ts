@@ -2,6 +2,7 @@ import axios from 'axios';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Message } from '@arco-design/web-vue';
 import { getToken } from '@/utils/auth';
+// import { useUserStore } from '@/store';
 
 export interface HttpResponse<T = unknown> {
   status: number;
@@ -9,6 +10,12 @@ export interface HttpResponse<T = unknown> {
   code: number;
   data: T;
 }
+let isRefreshing = false; // 判断是否刷新Token中
+let retryRequests: ((token: any) => void)[] = []; // 保存需要重新发起请求的队列
+// 刷新token的接口
+const refreshToken = () => {
+  return axios.post('/api/auth/refresh', {});
+};
 
 if (import.meta.env.VITE_API_BASE_URL) {
   axios.defaults.baseURL = import.meta.env.VITE_API_BASE_URL;
@@ -34,6 +41,36 @@ axios.interceptors.response.use(
   (response: AxiosResponse<HttpResponse>) => {
     const res = response.data;
     if (res.code !== 200) {
+      if (res.code === 401) {
+        if (!isRefreshing) {
+          isRefreshing = true; // 上锁
+          return refreshToken()
+            .then((results) => {
+              const { token } = results.data;
+              response.headers.token = `${token}`;
+              retryRequests.forEach((cb) => cb(token));
+              retryRequests = []; // 重新请求完清空
+            })
+            .catch((error) => {
+              Message.warning({
+                content: '抱歉，您的登录状态已失效，请重新登录！',
+                duration: 5 * 1000,
+              });
+              // useUserStore().logout();
+              // window.location.reload();
+              return Promise.reject(error);
+            })
+            .finally(() => {
+              isRefreshing = false;
+            });
+        }
+        return new Promise((resolve) => {
+          retryRequests.push((token: any) => {
+            response.headers.token = `${token}`;
+            resolve(axios(response.config));
+          });
+        });
+      }
       Message.error({
         content: res.msg || 'Error',
         duration: 5 * 1000,
@@ -44,8 +81,8 @@ axios.interceptors.response.use(
   },
   (error) => {
     Message.error({
-      content: error.msg || '请求失败',
-      duration: 5 * 1000,
+      content: error.msg || '获取数据失败',
+      duration: 1 * 1000,
     });
     return Promise.reject(error);
   }
