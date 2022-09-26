@@ -4,7 +4,12 @@ import {
   logout as userLogout,
   LoginData,
 } from '@/api/user';
-import { setToken, clearToken } from '@/utils/auth';
+import {
+  setToken,
+  clearToken,
+  setRefreshToken,
+  clearRefreshToken,
+} from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
 import { UserState } from './types';
 
@@ -56,14 +61,17 @@ const useUserStore = defineStore('user', {
       try {
         const res = await userLogin(loginForm);
         setToken(res.data.token);
+        setRefreshToken(res.data.refreshToken);
       } catch (err) {
         clearToken();
+        clearRefreshToken();
         throw err;
       }
     },
     logoutCallBack() {
       this.resetInfo();
       clearToken();
+      clearRefreshToken();
       removeRouteListener();
     },
     // 退出登录
