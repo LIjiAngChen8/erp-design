@@ -225,7 +225,7 @@
     }
   };
   const updateUserStatus = (id: string) => {
-    updateUser({ id, status: '2' }).then(() => {
+    updateUser({ id, status: '0' }).then(() => {
       getTableData(tableConfig.pagination.current);
     });
   };
