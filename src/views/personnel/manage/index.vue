@@ -16,8 +16,8 @@
                   :label="$t('userManage.position')"
                 >
                   <a-cascader
-                    :options="positionTree"
-                    default-value="公司"
+                    :options="data.deptList"
+                    :field-names="fieldNames"
                     :style="{ width: '320px' }"
                     placeholder="选择部门"
                     check-strictly
@@ -90,31 +90,25 @@
         </a-col>
       </a-row>
       <a-divider style="margin-top: 0" />
-      <a-row style="margin-bottom: 12px">
-        <a-col :span="8">
-          <a-button>
-            <template #icon>
-              <icon-download />
-            </template>
-            {{ $t('userManage.download') }}
-          </a-button>
-        </a-col>
-        <a-col :span="8">
-          <a-button>
-            <template #icon>
-              <icon-download />
-            </template>
-            {{ $t('userManage.download') }}
-          </a-button>
-        </a-col>
-        <a-col :span="8">
-          <a-button>
-            <template #icon>
-              <icon-download />
-            </template>
-            {{ $t('userManage.download') }}
-          </a-button>
-        </a-col>
+      <a-row style="margin-bottom: 12px" justify="end">
+        <a-button class="mr" status="danger">
+          <template #icon>
+            <icon-delete />
+          </template>
+          {{ $t('userManage.delete') }}
+        </a-button>
+        <a-button class="mr">
+          <template #icon>
+            <icon-sync />
+          </template>
+          {{ $t('userManage.passwordReset') }}
+        </a-button>
+        <a-button class="mr">
+          <template #icon>
+            <icon-download />
+          </template>
+          {{ $t('userManage.download') }}
+        </a-button>
       </a-row>
       <a-table
         v-model:selectedKeys="selectedKeys"
@@ -147,13 +141,27 @@
         <template #sex="{ record }">
           <span>{{ record.sex == '1' ? '男' : '女' }}</span>
         </template>
+        <template #phone="{ record }">
+          <a-typography-paragraph copyable>{{
+            record.phone
+          }}</a-typography-paragraph>
+        </template>
+        <template #idCard="{ record }">
+          <a-typography-paragraph copyable>{{
+            record.idCard
+          }}</a-typography-paragraph>
+        </template>
         <template #time="{ record }">
           <span>{{
             dayjs(record.createTime || '').format('YYYY-MM-DD HH:mm')
           }}</span>
         </template>
       </a-table>
-      <user-edit-modal ref="editModal" :user-info="userInfo"></user-edit-modal>
+      <user-edit-modal
+        ref="editModal"
+        :user-info="userInfo"
+        @submit="getTableData(tableConfig.pagination.current)"
+      ></user-edit-modal>
     </a-card>
   </div>
 </template>
@@ -163,6 +171,7 @@
   import { useI18n } from 'vue-i18n';
   import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
   import { getUserList } from '@/api/personnel';
+  import { getdeptAll } from '@/api/dept';
   import { delEmptyObj, isEmpty, deepClone } from '@/utils';
   import { Message } from '@arco-design/web-vue';
   import dayjs from 'dayjs';
@@ -192,6 +201,10 @@
       showTotal: true,
     },
   });
+  const fieldNames = { value: 'id', label: 'deptName' };
+  const data = reactive({
+    deptList: [],
+  }); // 部门数据
   const editModal: any = ref(null);
   const statusOptions = computed<SelectOptionData[]>(() => [
     {
@@ -207,45 +220,6 @@
       value: '1',
     },
   ]);
-  const positionTree = [
-    {
-      value: '公司',
-      label: '公司',
-      children: [
-        {
-          value: '模具车间',
-          label: '模具车间',
-          children: [
-            {
-              value: '一组',
-              label: '一组',
-            },
-            {
-              value: '二组',
-              label: '二组',
-            },
-          ],
-        },
-        {
-          value: '五金车间',
-          label: '五金车间',
-          disabled: true,
-        },
-        {
-          value: '数控车间',
-          label: '数控车间',
-        },
-        {
-          value: '抛光车间',
-          label: '抛光车间',
-        },
-        {
-          value: '外加工',
-          label: '外加工',
-        },
-      ],
-    },
-  ];
   const columns = reactive([
     {
       dataIndex: 'avatar',
@@ -272,12 +246,14 @@
     {
       title: '联系电话',
       dataIndex: 'phone',
-      width: 130,
+      width: 150,
+      slotName: 'phone',
     },
     {
       title: '身份证号码',
       dataIndex: 'idCard',
-      width: 190,
+      width: 210,
+      slotName: 'idCard',
       sortable: {
         sortDirections: ['ascend' as const, 'descend' as const],
       },
@@ -331,12 +307,39 @@
       getTableData(tableConfig.pagination.current, searchData);
     }
   };
+  /**
+   * 清除数组中空children
+   */
+  const delNullChildren = (arr: any) => {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr[i].children) {
+        if (arr[i].children.length > 0) {
+          delNullChildren(arr[i].children);
+        } else {
+          delete arr[i].children;
+        }
+      }
+    }
+    return arr;
+  };
+  /**
+   * 获取部门树
+   */
+  const getDept = () => {
+    getdeptAll().then((res) => {
+      data.deptList = delNullChildren(res.data);
+    });
+  };
+  /**
+   * 单击表格行打开编辑框
+   */
   const selectRow = (e: any) => {
     userInfo.value = deepClone(toRaw(e));
     editModal.value.showModal();
   };
   onMounted(() => {
     getTableData(tableConfig.pagination.current);
+    getDept();
   });
 </script>
 
@@ -349,6 +352,10 @@
 
     .general-card {
       width: 100%;
+
+      .mr {
+        margin-right: 10px;
+      }
     }
   }
 </style>

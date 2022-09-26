@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model:visible="visible" @ok="handleOk" @cancel="handleCancel">
+  <a-modal v-model:visible="visible" @ok="handleOk" @cancel="visible = false">
     <template #title>
       {{ title }}
     </template>
@@ -16,22 +16,22 @@
       <a-form-item field="phone" label="联系电话">
         <a-input v-model="formData.phone" />
       </a-form-item>
-      <a-form-item field="position" label="部门">
+      <a-form-item field="deptId" label="部门">
         <a-cascader
-          v-model="formData.position"
-          :options="options"
-          default-value="datunli"
+          v-model="formData.deptId"
+          :options="data.deptList"
+          :field-names="fieldNames"
           expand-trigger="hover"
           allow-clear
           check-strictly
           allow-search
         />
       </a-form-item>
-      <a-form-item field="department" label="职位">
+      <a-form-item field="positionId" label="职位">
         <a-cascader
-          v-model="formData.department"
+          v-model="formData.positionId"
           :options="options"
-          default-value="datunli"
+          :field-names="fieldNames"
           expand-trigger="hover"
           allow-clear
           check-strictly
@@ -58,7 +58,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, toRefs } from 'vue';
+  import { ref, toRefs, reactive } from 'vue';
   import { getdeptAll } from '@/api/dept';
   import { updateUser } from '@/api/personnel';
   import { delEmptyObj } from '@/utils';
@@ -75,57 +75,100 @@
   });
   const options = [
     {
-      value: 'beijing',
-      label: 'Beijing',
+      createBy: null,
+      createTime: null,
+      updateBy: null,
+      updateTime: null,
+      delFlag: 0,
+      id: 566632450,
+      deptName: '管理1部',
+      pid: null,
+      seq: 1,
       children: [
         {
-          value: 'chaoyang',
-          label: 'ChaoYang',
+          createBy: '1',
+          createTime: '2022-09-24 22:19:44',
+          updateBy: '1',
+          updateTime: '2022-09-24 22:19:44',
+          delFlag: 0,
+          id: 1883643906,
+          deptName: '机床部',
+          pid: 566632450,
+          seq: 0,
           children: [
             {
-              value: 'datunli',
-              label: 'Datunli',
+              createBy: '1',
+              createTime: '2022-09-25 23:02:31',
+              updateBy: '1',
+              updateTime: '2022-09-25 23:02:31',
+              delFlag: 0,
+              id: 1883643908,
+              deptName: '小组1',
+              pid: 1883643906,
+              seq: 0,
+              children: [],
             },
           ],
         },
         {
-          value: 'haidian',
-          label: 'Haidian',
-        },
-        {
-          value: 'dongcheng',
-          label: 'Dongcheng',
-        },
-        {
-          value: 'xicheng',
-          label: 'Xicheng',
-          children: [
-            {
-              value: 'jinrongjie',
-              label: 'Jinrongjie',
-            },
-            {
-              value: 'tianqiao',
-              label: 'Tianqiao',
-            },
-          ],
+          createBy: '1',
+          createTime: '2022-09-25 23:07:21',
+          updateBy: '1',
+          updateTime: '2022-09-25 23:07:21',
+          delFlag: 0,
+          id: 1883643910,
+          deptName: '实施部',
+          pid: 566632450,
+          seq: 0,
+          children: [],
         },
       ],
     },
     {
-      value: 'shanghai',
-      label: 'Shanghai',
+      createBy: null,
+      createTime: null,
+      updateBy: null,
+      updateTime: null,
+      delFlag: 0,
+      id: 1883643905,
+      deptName: '管理2部',
+      pid: null,
+      seq: 0,
       children: [
         {
-          value: 'huangpu',
-          label: 'Huangpu',
+          createBy: '1',
+          createTime: '2022-09-25 23:03:08',
+          updateBy: '1',
+          updateTime: '2022-09-25 23:03:08',
+          delFlag: 0,
+          id: 1883643909,
+          deptName: '设计组',
+          pid: 1883643905,
+          seq: 0,
+          children: [],
         },
       ],
     },
+    {
+      createBy: '1',
+      createTime: '2022-09-24 22:51:29',
+      updateBy: '1',
+      updateTime: '2022-09-24 22:51:29',
+      delFlag: 0,
+      id: 1883643907,
+      deptName: '人事部门',
+      pid: null,
+      seq: 0,
+      children: [],
+    },
   ];
+  const emit = defineEmits(['submit']);
+  const fieldNames = { value: 'id', label: 'deptName' };
   const { userInfo: formData } = toRefs(props);
   const visible = ref(false);
-
+  const data = reactive({
+    deptList: [],
+  });
   const formatter = (value: string) => {
     const values = value.split('.');
     values[0] = values[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -135,9 +178,27 @@
   const parser = (value: string) => {
     return value.replace(/,/g, '');
   };
+  /**
+   * 清除数组中空children
+   */
+  const delNullChildren = (arr: any) => {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr[i].children) {
+        if (arr[i].children.length > 0) {
+          delNullChildren(arr[i].children);
+        } else {
+          delete arr[i].children;
+        }
+      }
+    }
+    return arr;
+  };
+  /**
+   * 获取部门树
+   */
   const getDept = () => {
     getdeptAll().then((res) => {
-      console.log(res);
+      data.deptList = delNullChildren(res.data);
     });
   };
   const showModal = () => {
@@ -145,13 +206,12 @@
     getDept();
   };
   const handleOk = () => {
+    formData.value.password = '';
     const upDate = delEmptyObj(formData.value);
     updateUser(upDate).then(() => {
       visible.value = false;
+      emit('submit');
     });
-  };
-  const handleCancel = () => {
-    visible.value = false;
   };
   defineExpose({ showModal });
 </script>

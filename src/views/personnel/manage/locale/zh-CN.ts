@@ -10,5 +10,7 @@ export default {
   'userManage.createTime': '注册时间',
   'userManage.position': '部门',
   'userManage.download': '下载',
+  'userManage.delete': '删除',
+  'userManage.passwordReset': '重置密码',
   'userManage.modal.title': '修改用户信息',
 };
