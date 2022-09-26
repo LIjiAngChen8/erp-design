@@ -1,13 +1,9 @@
 <template>
   <a-modal v-model:visible="visible" @ok="handleOk" @cancel="handleCancel">
     <template #title>
-      <a-switch v-model="editStatus" type="round">
-        <template #checked>预览</template>
-        <template #unchecked>修改</template>
-      </a-switch>
       {{ title }}
     </template>
-    <a-form :model="userInfo" :disabled="!editStatus">
+    <a-form :model="formData">
       <a-form-item field="userName" label="昵称">
         <a-input v-model="formData.userName" />
       </a-form-item>
@@ -63,6 +59,9 @@
 
 <script lang="ts" setup>
   import { ref, toRefs } from 'vue';
+  import { getdeptAll } from '@/api/dept';
+  import { updateUser } from '@/api/personnel';
+  import { delEmptyObj } from '@/utils';
 
   const props = defineProps({
     title: {
@@ -74,7 +73,6 @@
       default: () => ({}),
     },
   });
-  const editStatus = ref(false);
   const options = [
     {
       value: 'beijing',
@@ -137,13 +135,20 @@
   const parser = (value: string) => {
     return value.replace(/,/g, '');
   };
-
+  const getDept = () => {
+    getdeptAll().then((res) => {
+      console.log(res);
+    });
+  };
   const showModal = () => {
-    editStatus.value = false;
     visible.value = true;
+    getDept();
   };
   const handleOk = () => {
-    visible.value = false;
+    const upDate = delEmptyObj(formData.value);
+    updateUser(upDate).then(() => {
+      visible.value = false;
+    });
   };
   const handleCancel = () => {
     visible.value = false;
