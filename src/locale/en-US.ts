@@ -12,6 +12,7 @@ export default {
   'menu.warehouse': 'Warehouse',
   'menu.warehouse.creatOrder': 'Creat-Order',
   'menu.warehouse.orderCtenter': 'Order-Ctenter',
+  'menu.warehouse.product': 'Product',
   'menu.server.dashboard': 'Dashboard-Server',
   'menu.server.workplace': 'Workplace-Server',
   'menu.server.monitor': 'Monitor-Server',

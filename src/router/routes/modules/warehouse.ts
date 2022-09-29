@@ -13,6 +13,16 @@ const WAREHOUSE: AppRouteRecordRaw = {
   },
   children: [
     {
+      path: 'product',
+      name: 'product',
+      component: () => import('@/views/warehouse/product/index.vue'),
+      meta: {
+        locale: 'menu.warehouse.product',
+        requiresAuth: true,
+        roles: ['*'],
+      },
+    },
+    {
       path: 'order-center',
       name: 'OrderCtenter',
       component: () => import('@/views/warehouse/order-center/index.vue'),
