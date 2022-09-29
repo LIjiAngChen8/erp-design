@@ -61,6 +61,7 @@
   import { ref, toRefs, reactive } from 'vue';
   import { getdeptAll } from '@/api/dept';
   import { updateUser } from '@/api/personnel';
+  import { getPositionList } from '@/api/position';
   import { delEmptyObj } from '@/utils';
 
   const props = defineProps({
@@ -201,9 +202,21 @@
       data.deptList = delNullChildren(res.data);
     });
   };
+  /**
+   * 获取全部职位
+   */
+  const getPosition = () => {
+    getPositionList().then((res) => {
+      console.log(res);
+    });
+  };
+  /**
+   * 显示弹窗
+   */
   const showModal = () => {
     visible.value = true;
     getDept();
+    getPosition();
   };
   const handleOk = () => {
     formData.value.password = '';
