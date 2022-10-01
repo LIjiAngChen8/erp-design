@@ -11,11 +11,9 @@
           >
             <a-row :gutter="16">
               <a-col :span="8">
-                <a-form-item
-                  field="position"
-                  :label="$t('userManage.position')"
-                >
+                <a-form-item field="deptId" :label="$t('userManage.deptId')">
                   <a-cascader
+                    v-model="searchForm.deptId"
                     :options="data.deptList"
                     :field-names="fieldNames"
                     :style="{ width: '320px' }"
@@ -183,8 +181,9 @@
       idCard: '',
       status: '',
       createTime: [],
-      position: '',
+      position: '', // 职位
       phone: '',
+      deptId: '', // 部门
     };
   };
   const selectedKeys = ref([]); // 表格选择人员数组
@@ -227,7 +226,7 @@
     },
     {
       title: '部门',
-      dataIndex: 'department',
+      dataIndex: 'deptId',
     },
     {
       title: '职位',
