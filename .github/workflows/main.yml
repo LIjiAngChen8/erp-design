@@ -9,17 +9,25 @@ on:
 
 jobs:
   build:
-    # 运行环境
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: npm install
-      run: npm install
+      - uses: actions/checkout@v3 # git 克隆到当前机器上
+      - name: Use Node.js
+        uses: actions/setup-node@v3 # 设置node环境
+        with:
+          node-version: 16.x # 指定版本
+          cache: 'yarn'
+
+      - name: Install
+        run: yarn
+
+      - name: Run build
+        run: yarn build
+
+      - name: 查看打包后文件
+        run: ls -a
       
-    - name: npm run build
-      run: npm run build
     # 命名这个任务为发布Deploy
 #     - name: Deploy
 #       # 因为构建之后，需要把代码上传到服务器上，所以需要连接到ssh，并且做一个拷贝操作
