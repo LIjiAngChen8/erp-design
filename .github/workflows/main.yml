@@ -31,8 +31,8 @@ jobs:
       - name: 部署
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.HOST }} # 服务器host
-          username: ${{ secrets.USER }} # 服务器用户名
-          password: ${{ secrets.PASSWORD }} # 服务器密码
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
           source: './dist/*' # 需要上传的文件, 多文件使用逗号隔开
-          target: '~/demo' # 上传到服务器的什么位置
+          target: '/root/app'
