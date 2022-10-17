@@ -6,30 +6,27 @@ on:
     paths-ignore:
       - LICENSE
       - README.md
-  pull_request:
-    branches: master
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3 # git 克隆到当前机器上
-      - name: Use Node.js
-        uses: actions/setup-node@v3 # 设置node环境
+      - name: 检出代码
+        uses: actions/checkout@v3 # git 克隆到当前机器上
+        
+      - name: Node环境
+        uses: actions/setup-node@v3
         with:
           node-version: 16.x
           cache: 'yarn'
           
       - name: 缓存检查
-        # 缓存命中结果会存储在steps.[id].outputs.cache-hit里，该变量在继后的step中可读
         id: cache-dependencies
         uses: actions/cache@v3
         with:
           path: |
             **/node_modules
-          # key中定义缓存标志位的生成方式。runner.OS指当前环境的系统。外加对yarn.lock内容生成哈希码作为key值，如果yarn.lock改变则代表依赖有变化。
-          # 这里用yarn.lock而不是package.json是因为package.json中还有version和description之类的描述项目但和依赖无关的属性
           key: ${{runner.OS}}-${{hashFiles('**/yarn.lock')}}
           
       - name: 安装依赖
