@@ -6,6 +6,8 @@ on:
     paths-ignore:
       - LICENSE
       - README.md
+  pull_request:
+    branches: master
 
 jobs:
   build:
@@ -18,8 +20,20 @@ jobs:
         with:
           node-version: 16.x
           cache: 'yarn'
-
+          
+      - name: 缓存检查
+        # 缓存命中结果会存储在steps.[id].outputs.cache-hit里，该变量在继后的step中可读
+        id: cache-dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+          # key中定义缓存标志位的生成方式。runner.OS指当前环境的系统。外加对yarn.lock内容生成哈希码作为key值，如果yarn.lock改变则代表依赖有变化。
+          # 这里用yarn.lock而不是package.json是因为package.json中还有version和description之类的描述项目但和依赖无关的属性
+          key: ${{runner.OS}}-${{hashFiles('**/yarn.lock')}}
+          
       - name: 安装依赖
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: yarn
 
       - name: 打包构建
