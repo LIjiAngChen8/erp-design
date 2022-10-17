@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main] # main分支push就执行该工作流
+    branches: [master] # main分支push就执行该工作流
     paths-ignore:
       - LICENSE
       - README.md
