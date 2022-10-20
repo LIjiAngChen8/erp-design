@@ -18,10 +18,11 @@
           ></path>
         </svg>
         <a-typography-title
+          v-if="appStore.device !== 'mobile'"
           :style="{ margin: 0, fontSize: '18px' }"
           :heading="5"
         >
-          <!-- 宁波铜霸楼梯有限公司 -->
+          宁波铜霸楼梯管理端
         </a-typography-title>
         <icon-menu-fold
           v-if="appStore.device === 'mobile'"
