@@ -1,21 +1,7 @@
 <template>
   <div class="container">
     <a-card class="general-card" title="产品信息中心">
-      <a-space>
-        <a-button type="primary" size="small" @click="showAdd">
-          <template #icon><icon-plus /></template>新建
-        </a-button>
-        <a-button type="dashed" size="small" status="danger">
-          <template #icon><icon-delete /></template>删除
-        </a-button>
-        <icon-sync
-          style="font-size: 20px"
-          :spin="tableConfig.tableLoading"
-          @click="getTableData(tableConfig.pagination.current)"
-        />
-      </a-space>
-      <a-divider dashed />
-      <a-tabs type="rounded">
+      <a-tabs type="line">
         <a-tab-pane key="1" title="卡片视图">
           <productCard
             :product-list="tableData"
@@ -23,12 +9,27 @@
           ></productCard>
         </a-tab-pane>
         <a-tab-pane key="2" title="表格视图">
+          <a-space style="margin-bottom: 20px">
+            <a-button type="primary" size="small" @click="showAdd">
+              <template #icon><icon-plus /></template>新建
+            </a-button>
+            <a-button type="dashed" size="small" status="danger">
+              <template #icon><icon-delete /></template>删除
+            </a-button>
+            <icon-sync
+              style="font-size: 20px"
+              :spin="tableConfig.tableLoading"
+              @click="getTableData(tableConfig.pagination.current)"
+            />
+          </a-space>
           <a-table
             v-model:selectedKeys="selectedKeys"
             style="width: 100%"
             row-key="id"
             :columns="columns"
             :data="tableData"
+            :bordered="false"
+            :stripe="true"
             :filter-icon-align-left="true"
             :row-selection="{ type: 'checkbox', showCheckedAll: true }"
             :loading="tableConfig.tableLoading"

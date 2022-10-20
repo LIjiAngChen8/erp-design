@@ -39,7 +39,7 @@
             width="100%"
             height="100px"
             fit="scale-down"
-            src="//vkceyugu.cdn.bspapp.com/VKCEYUGU-efbfcb02-017d-4e68-a2c7-f92e33192dbb/d243909c-b3e0-4f63-8e15-fa15fb9b0e5a.png"
+            :src="item.productImgList[0]?.productUrl"
           ></a-image>
           <a-descriptions
             style="margin-bottom: 10px"
@@ -106,6 +106,7 @@
     createTime?: string;
     updateTime?: string;
     updateBy?: string;
+    productImgList?: any;
   };
 
   const emit = defineEmits(['delete']);
@@ -206,7 +207,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    background-color: var(--color-neutral-2);
+    background-color: #fff;
     border-radius: 5px;
   }
 
