@@ -12,11 +12,7 @@
         <a-link>{{ $t('workplace.viewMore') }}</a-link>
       </template>
       <a-space direction="vertical" :size="10" fill>
-        <a-radio-group
-          v-model:model-value="type"
-          type="button"
-          @change="(typeChange as any)"
-        >
+        <a-radio-group v-model:model-value="type" type="button">
           <a-radio value="text">
             {{ $t('workplace.popularContent.text') }}
           </a-radio>
@@ -75,27 +71,11 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import useLoading from '@/hooks/loading';
-  import { queryPopularList } from '@/api/dashboard';
   import type { TableData } from '@arco-design/web-vue/es/table/interface';
 
   const type = ref('text');
-  const { loading, setLoading } = useLoading();
+  const { loading } = useLoading();
   const renderList = ref<TableData[]>();
-  const fetchData = async (contentType: string) => {
-    try {
-      setLoading(true);
-      const { data } = await queryPopularList({ type: contentType });
-      renderList.value = data;
-    } catch (err) {
-      // you can report use errorHandler or other
-    } finally {
-      setLoading(false);
-    }
-  };
-  const typeChange = (contentType: string) => {
-    fetchData(contentType);
-  };
-  fetchData('text');
 </script>
 
 <style scoped lang="less">
