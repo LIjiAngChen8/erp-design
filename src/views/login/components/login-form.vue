@@ -1,6 +1,5 @@
 <template>
   <div class="login-form-wrapper">
-    <!-- <div class="login-form-title">ss</div> -->
     <div class="login-form-sub-title">
       {{ $t('login.form.title') }}
       <div class="login-form-sub-title highlight">
@@ -115,6 +114,7 @@
   import { useUserStore } from '@/store';
   import useLoading from '@/hooks/loading';
   import type { LoginData } from '@/api/user';
+  import { clearToken, clearRefreshToken } from '@/utils/auth';
 
   const router = useRouter();
   const { t } = useI18n();
@@ -157,6 +157,8 @@
     if (!errors) {
       setLoading(true);
       try {
+        clearToken();
+        clearRefreshToken();
         await userStore.login(values as LoginData);
         setLoginConfig();
         router.push({ name: 'Workplace' });
