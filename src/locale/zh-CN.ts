@@ -9,6 +9,7 @@ export default {
   'menu.dashboard': '总控台',
   'menu.personnel': '用户中心',
   'menu.warehouse': '仓库管理',
+  'menu.department': '部门',
   'menu.warehouse.creatOrder': '新建订单',
   'menu.warehouse.orderCtenter': '订单中心',
   'menu.warehouse.product': '产品库',

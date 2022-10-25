@@ -10,6 +10,7 @@ export default {
   'menu.dashboard': 'Dashboard',
   'menu.personnel': 'Personnel',
   'menu.warehouse': 'Warehouse',
+  'menu.department': 'Department',
   'menu.warehouse.creatOrder': 'Creat-Order',
   'menu.warehouse.orderCtenter': 'Order-Ctenter',
   'menu.warehouse.product': 'Product',
