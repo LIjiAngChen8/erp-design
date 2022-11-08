@@ -1,53 +1,73 @@
 <template>
   <div class="container">
     <a-card class="left-side card" title="部门架构">
-      <a-input-search class="search" placeholder="输入部门名称" />
+      <a-input-search
+        v-model="searchKey"
+        class="search"
+        placeholder="输入部门名称"
+      />
       <a-tree
         :data="treeData"
-        :default-expanded-keys="['0-0-0']"
-        :default-selected-keys="['0-0-0', '0-0-1']"
-      />
+        block-node
+        :field-names="{ key: 'id', title: 'deptName' }"
+      >
+        <template #title="nodeData">
+          <template
+            v-if="((index = getMatchIndex(nodeData?.deptName)), index < 0)"
+            >{{ nodeData?.deptName }}
+          </template>
+          <span v-else>
+            {{ nodeData?.deptName?.substr(0, index) }}
+            <span style="color: var(--color-primary-light-4)">
+              {{ nodeData?.deptName?.substr(index, searchKey.length) }}</span
+            >{{ nodeData?.deptName?.substr(index + searchKey.length) }}
+          </span>
+        </template>
+      </a-tree>
     </a-card>
     <div class="content">1</div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { ref, computed, onMounted } from 'vue';
+  import { getdeptAll } from '@/api/dept';
 
-  const treeData = reactive([
-    {
-      title: 'Trunk 0-0',
-      key: '0-0',
-      children: [
-        {
-          title: 'Branch 0-0-0',
-          key: '0-0-0',
-          disabled: true,
-          children: [
-            {
-              title: 'Leaf',
-              key: '0-0-0-0',
-            },
-            {
-              title: 'Leaf',
-              key: '0-0-0-1',
-            },
-          ],
-        },
-        {
-          title: 'Branch 0-0-1',
-          key: '0-0-1',
-          children: [
-            {
-              title: 'Leaf',
-              key: '0-0-1-0',
-            },
-          ],
-        },
-      ],
-    },
-  ]);
+  const searchKey = ref('');
+  const originTreeData = ref([]);
+  function searchData(keyword: string) {
+    const loop = (data: any) => {
+      const result: any = [];
+      data.forEach((item: any) => {
+        if (item.deptName.toLowerCase().indexOf(keyword.toLowerCase()) > -1) {
+          result.push({ ...item });
+        } else if (item.children) {
+          const filterData = loop(item.children);
+          if (filterData.length) {
+            result.push({
+              ...item,
+              children: filterData,
+            });
+          }
+        }
+      });
+      return result;
+    };
+    return loop(originTreeData.value);
+  }
+  const treeData = computed(() => {
+    if (!searchKey.value) return originTreeData.value;
+    return searchData(searchKey.value);
+  });
+  function getMatchIndex(title: any) {
+    if (!searchKey.value) return -1;
+    return title.toLowerCase().indexOf(searchKey.value.toLowerCase());
+  }
+  onMounted(() => {
+    getdeptAll().then((res) => {
+      originTreeData.value = res.data;
+    });
+  });
 </script>
 
 <style scoped lang="less">
