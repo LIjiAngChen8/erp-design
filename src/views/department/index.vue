@@ -16,7 +16,7 @@
             >{{ nodeData?.deptName }}
           </template>
           <template v-else>
-            <spam>{{ nodeData?.deptName?.substr(0, keyIndex) }}</spam>
+            <span>{{ nodeData?.deptName?.substr(0, keyIndex) }}</span>
             <span style="color: var(--color-primary-light-4)">
               {{ nodeData?.deptName?.substr(keyIndex, searchKey.length) }}
             </span>
