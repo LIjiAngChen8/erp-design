@@ -12,16 +12,18 @@
         :field-names="{ key: 'id', title: 'deptName' }"
       >
         <template #title="nodeData">
-          <template
-            v-if="((index = getMatchIndex(nodeData?.deptName)), index < 0)"
+          <template v-if="getMatchIndex(nodeData?.deptName) < 0"
             >{{ nodeData?.deptName }}
           </template>
-          <span v-else>
-            {{ nodeData?.deptName?.substr(0, index) }}
+          <template v-else>
+            <spam>{{ nodeData?.deptName?.substr(0, keyIndex) }}</spam>
             <span style="color: var(--color-primary-light-4)">
-              {{ nodeData?.deptName?.substr(index, searchKey.length) }}</span
-            >{{ nodeData?.deptName?.substr(index + searchKey.length) }}
-          </span>
+              {{ nodeData?.deptName?.substr(keyIndex, searchKey.length) }}
+            </span>
+            <span>{{
+              nodeData?.deptName?.substr(keyIndex + searchKey.length)
+            }}</span>
+          </template>
         </template>
       </a-tree>
     </a-card>
@@ -34,6 +36,7 @@
   import { getdeptAll } from '@/api/dept';
 
   const searchKey = ref('');
+  const keyIndex = ref(-1);
   const originTreeData = ref([]);
   function searchData(keyword: string) {
     const loop = (data: any) => {
@@ -59,10 +62,15 @@
     if (!searchKey.value) return originTreeData.value;
     return searchData(searchKey.value);
   });
-  function getMatchIndex(title: any) {
-    if (!searchKey.value) return -1;
-    return title.toLowerCase().indexOf(searchKey.value.toLowerCase());
-  }
+  const getMatchIndex = (title: string) => {
+    if (!searchKey.value) {
+      keyIndex.value = -1;
+      return -1;
+    }
+    const index = title.toLowerCase().indexOf(searchKey.value.toLowerCase());
+    keyIndex.value = index;
+    return index;
+  };
   onMounted(() => {
     getdeptAll().then((res) => {
       originTreeData.value = res.data;
