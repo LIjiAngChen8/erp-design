@@ -13,5 +13,6 @@ jobs:
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
           release-type: node
-          package-name: standard-version
+          package-name: autorelease
+          labels: autorelease
           changelog-types: '[{"type": "feat", "section": "✨新功能", "hidden": false},{"type": "fix", "section": "🐛问题修复", "hidden": false},{"type": "perf", "section":"💡性能优化", "hidden": false},{"type": "refactor", "section":"✨代码重构", "hidden": false},{"type": "docs", "section":"📄文档", "hidden": false},{"type": "style", "section":"🧵代码格式", "hidden": false},{"type": "test", "section":"📋测试", "hidden": false},{"type": "build", "section":"📦项目构建", "hidden": false},{"type": "revert", "section":"🩹版本回滚", "hidden": false},{"type": "ci", "section":"🪛CI持续集成", "hidden":false},{"type": "workflow", "section":"🔖工作流", "hidden": false},{"type": "chore", "section": "🖇️其他", "hidden": false}]'
