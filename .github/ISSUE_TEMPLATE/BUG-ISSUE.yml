@@ -4,10 +4,12 @@ title: "[Bug]: "
 labels: ["🐞Bug"]
 body:
   - type: markdown
+    id: tips
     attributes:
       value: |
         感谢您花时间填写此错误报告!
   - type: checkboxes
+    id: checks
     attributes:
       label: 是否有相同issue?
       description: 避免提交重复问题,请确定您的这个bug是否已经有相同的issue了.
