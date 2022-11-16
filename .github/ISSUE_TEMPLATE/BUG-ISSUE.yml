@@ -5,7 +5,8 @@ labels: ["🐞Bug"]
 body:
 - type: markdown
     attributes:
-      value: 感谢您花时间填写此错误报告!
+      value: |
+        Thanks for taking the time to fill out this bug report!
 - type: checkboxes
   attributes:
     label: 是否有相同issue?
