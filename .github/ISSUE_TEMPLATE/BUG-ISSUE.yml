@@ -3,10 +3,6 @@ description: 该表单用于提交bug/issue
 title: "[Bug]: "
 labels: ["🐞Bug"]
 body:
-- type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
 - type: checkboxes
   attributes:
     label: 是否有相同issue?
