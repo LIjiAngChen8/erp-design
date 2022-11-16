@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.0.1](https://github.com/LIjiAngChen8/erp-design/compare/v1.0.0...v1.0.1) (2022-11-16)
+
+
+### 📄文档
+
+* issue表单 ([ed671fa](https://github.com/LIjiAngChen8/erp-design/commit/ed671fa246f0243f536afc4f53409a48da82fa54))
+* 新增需求模板issue ([2949bd9](https://github.com/LIjiAngChen8/erp-design/commit/2949bd9567e8a37f1207b752a078c53720ed4597))
+* 更新bug/issue模板 ([56bf62a](https://github.com/LIjiAngChen8/erp-design/commit/56bf62a19379398dbc2b22d36addd9558ae37e2d))
+
+
+### 🖇️其他
+
+* 增加issue表单 ([b284260](https://github.com/LIjiAngChen8/erp-design/commit/b28426037805ab4238d94ac3307f5eae25cfbbdd))
+
 ## 1.0.0 (2022-11-10)
 
 
