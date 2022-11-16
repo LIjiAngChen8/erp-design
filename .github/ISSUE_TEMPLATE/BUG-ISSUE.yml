@@ -17,7 +17,7 @@ body:
       - label: 我确定
         required: true
   - type: dropdown
-      id: type
+      id: bugtype
       attributes:
         label: bug类型
         multiple: true
