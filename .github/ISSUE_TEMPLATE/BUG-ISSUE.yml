@@ -17,15 +17,16 @@ body:
       - label: 我确定
         required: true
   - type: dropdown
-      attributes:
-        label: bug类型
-        multiple: true
-        options:
-          - docs(文档)
-          - style(样式)
-          - component(组件)
-          - workflow(工作流)
-          - other(其他)
+    id: bugtype
+    attributes: 
+      label: bug类型
+      multiple: true
+      options:
+        - docs(文档)
+        - style(样式)
+        - component(组件)
+        - workflow(工作流)
+        - other(其他)
   - type: textarea
     id: what-happened
     attributes:
