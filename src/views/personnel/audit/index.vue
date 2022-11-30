@@ -7,10 +7,10 @@
             :model="searchForm"
             :label-col-props="{ span: 6 }"
             :wrapper-col-props="{ span: 18 }"
-            label-align="left"
+            label-align="right"
           >
             <a-row :gutter="16">
-              <a-col :span="8">
+              <a-col :span="12">
                 <a-form-item field="idCard" :label="$t('audit.form.idCard')">
                   <a-input
                     v-model="searchForm.idCard"
@@ -18,9 +18,7 @@
                   />
                 </a-form-item>
               </a-col>
-            </a-row>
-            <a-row :gutter="16">
-              <a-col :span="8">
+              <a-col :span="12">
                 <a-form-item
                   field="userName"
                   :label="$t('audit.form.userName')"
@@ -31,21 +29,12 @@
                   />
                 </a-form-item>
               </a-col>
-              <a-col :span="8">
-                <a-form-item field="status" :label="$t('audit.form.status')">
-                  <a-select
-                    v-model="searchForm.status"
-                    :options="statusOptions"
-                    :placeholder="$t('audit.form.status.selectDefault')"
-                  />
-                </a-form-item>
-              </a-col>
             </a-row>
           </a-form>
         </a-col>
-        <a-divider style="height: 84px" direction="vertical" />
-        <a-col :flex="'100px'" style="text-align: right">
-          <a-space direction="vertical" :size="18">
+        <a-divider style="height: 34px" direction="vertical" />
+        <a-col :flex="'210px'" style="text-align: right">
+          <a-space :size="18">
             <a-button type="primary" @click="toSearch">
               <template #icon>
                 <icon-search />
@@ -80,11 +69,6 @@
         :pagination="tableConfig.pagination"
         @page-change="getTableData"
       >
-        <template #status="{ record }">
-          <a-tag :color="['arcoblue', 'gray', 'orange'][record.status]">{{
-            ['通过', '停用', '待审核'][record.status]
-          }}</a-tag>
-        </template>
         <template #avatar="{}">
           <a-avatar :style="{ backgroundColor: '#3370ff' }">
             <IconUser />
@@ -94,13 +78,15 @@
           <span>{{ record.sex == '1' ? '男' : '女' }}</span>
         </template>
         <template #pass="{ record }">
-          <a-button
-            v-if="record.status === '2'"
-            type="primary"
-            size="mini"
-            @click="updateUserStatus(record.id)"
-            >同意注册</a-button
+          <a-popconfirm
+            content="Are you sure you want to delete?"
+            type="error"
+            @ok="updateUserStatus(record.id)"
           >
+            <a-button v-if="record.status === '2'" type="primary" size="mini"
+              >同意注册</a-button
+            >
+          </a-popconfirm>
         </template>
       </a-table>
     </a-card>
@@ -108,9 +94,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { reactive, ref, computed, onMounted } from 'vue';
-  import { useI18n } from 'vue-i18n';
-  import type { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
+  import { reactive, ref, onMounted } from 'vue';
   import { getUserList, updateUser } from '@/api/personnel';
   import { delEmptyObj, isEmpty } from '@/utils';
   import { Message } from '@arco-design/web-vue';
@@ -122,7 +106,6 @@
       status: '',
     };
   };
-  const { t } = useI18n();
   const searchForm = ref(generateSearchForm());
   const tableData = ref([]);
   const tableConfig = reactive({
@@ -134,24 +117,6 @@
       showTotal: true,
     },
   });
-  const statusOptions = computed<SelectOptionData[]>(() => [
-    {
-      label: t('audit.form.status.all'),
-      value: '',
-    },
-    {
-      label: t('audit.form.status.pass'),
-      value: '0',
-    },
-    {
-      label: t('audit.form.status.disable'),
-      value: '1',
-    },
-    {
-      label: t('audit.form.status.deactivate'),
-      value: '2',
-    },
-  ]);
   const columns = reactive([
     {
       dataIndex: 'avatar',
@@ -177,10 +142,6 @@
     {
       title: '身份证号码',
       dataIndex: 'idCard',
-    },
-    {
-      title: '状态',
-      slotName: 'status',
     },
     {
       title: '操作',
