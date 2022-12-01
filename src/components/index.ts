@@ -12,8 +12,10 @@ import {
 import Chart from './chart/index.vue';
 import Breadcrumb from './breadcrumb/index.vue';
 
-// Manually introduce ECharts modules to reduce packing size
+import deptSelect from './dept-select.vue';
+import PositionSelect from './position-select.vue';
 
+// 手动引入ECharts模块以减少包装尺寸
 use([
   CanvasRenderer,
   BarChart,
@@ -31,5 +33,7 @@ export default {
   install(Vue: App) {
     Vue.component('Chart', Chart);
     Vue.component('Breadcrumb', Breadcrumb);
+    Vue.component('DeptSelect', deptSelect);
+    Vue.component('PositionSelect', PositionSelect);
   },
 };
