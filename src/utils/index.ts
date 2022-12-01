@@ -1,5 +1,6 @@
-type TargetContext = '_self' | '_parent' | '_blank' | '_top';
+import { toRaw } from '@vue/reactivity';
 
+type TargetContext = '_self' | '_parent' | '_blank' | '_top';
 export const openWindow = (
   url: string,
   opts?: { target?: TargetContext; [key: string]: any }
@@ -154,6 +155,39 @@ export const delEmptyObj = (obj: any) => {
     }
   });
   return newObj;
+};
+
+/**
+ * @description 深度优先查找节点
+ * @param tree 需要查找的树数据
+ * @param curKey 当前节点key
+ * @param keyField 自定义 key 字段
+ * @param node 找到的node 可以不传
+ */
+export const findCurNode = (
+  tree: any,
+  curKey: string | number,
+  keyField: string,
+  node = [] as any
+) => {
+  const stack: Array<any> = [];
+  tree.forEach((item: object) => {
+    if (item) {
+      stack.push(item);
+      while (stack.length) {
+        const temp = stack.pop();
+        if (temp[keyField] === curKey) {
+          node = temp;
+          break;
+        }
+        const children = temp.children || [];
+        for (let i = children.length - 1; i >= 0; i -= 1) {
+          stack.push(children[i]);
+        }
+      }
+    }
+  });
+  return toRaw(node);
 };
 
 export default null;
