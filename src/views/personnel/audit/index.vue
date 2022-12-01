@@ -64,7 +64,7 @@
       <a-table
         style="width: 100%"
         :columns="columns"
-        :data="tableData"
+        :data="tableData.data"
         :loading="tableConfig.tableLoading"
         :pagination="tableConfig.pagination"
         @page-change="getTableData"
@@ -74,14 +74,20 @@
             <IconUser />
           </a-avatar>
         </template>
-        <template #sex="{ record }">
-          <span>{{ record.sex == '1' ? '男' : '女' }}</span>
+        <template #dept="{ record }">
+          <DeptSelect
+            v-model:value="record.deptId"
+            v-model:label="record.deptName"
+          ></DeptSelect>
         </template>
+        <!-- <template #position="{ record }">
+          <PositionSelect v-model="record.positionId"></PositionSelect>
+        </template> -->
         <template #pass="{ record }">
           <a-popconfirm
-            content="Are you sure you want to delete?"
-            type="error"
-            @ok="updateUserStatus(record.id)"
+            :content="record.deptId ? '确定通过注册' : '未给员工指定部门'"
+            :type="record.deptId ? 'warning' : 'error'"
+            @ok="updateUserStatus(record)"
           >
             <a-button v-if="record.status === '2'" type="primary" size="mini"
               >同意注册</a-button
@@ -107,7 +113,9 @@
     };
   };
   const searchForm = ref(generateSearchForm());
-  const tableData = ref([]);
+  const tableData = reactive({
+    data: [],
+  });
   const tableConfig = reactive({
     tableLoading: false,
     pagination: {
@@ -131,11 +139,6 @@
       dataIndex: 'nickName',
     },
     {
-      title: '性别',
-      dataIndex: 'sex',
-      slotName: 'sex',
-    },
-    {
       title: '联系电话',
       dataIndex: 'phone',
     },
@@ -143,6 +146,16 @@
       title: '身份证号码',
       dataIndex: 'idCard',
     },
+    {
+      title: '部门',
+      dataIndex: 'deptId',
+      slotName: 'dept',
+    },
+    // {
+    //   title: '职位',
+    //   dataIndex: 'positionId',
+    //   slotName: 'position',
+    // },
     {
       title: '操作',
       slotName: 'pass',
@@ -160,11 +173,11 @@
     size = tableConfig.pagination.pageSize
   ) => {
     tableConfig.tableLoading = true;
-    getUserList({ current, size, ...search }).then((res) => {
+    getUserList({ current, size, status: '2', ...search }).then((res) => {
       tableConfig.tableLoading = false;
       tableConfig.pagination.total = res.data.total;
       tableConfig.pagination.current = current;
-      tableData.value = res.data.result;
+      tableData.data = res.data.result;
     });
   };
   /**
@@ -185,10 +198,17 @@
       getTableData(tableConfig.pagination.current, searchData);
     }
   };
-  const updateUserStatus = (id: string) => {
-    updateUser({ id, status: '0' }).then(() => {
-      getTableData(tableConfig.pagination.current);
-    });
+  /**
+   * 更新用户信息
+   * @param row 选中行信息
+   */
+  const updateUserStatus = (row: any) => {
+    const { id, deptName, deptId } = row;
+    if (row.deptId && row.deptName) {
+      updateUser({ id, status: '0', deptName, deptId }).then(() => {
+        getTableData(tableConfig.pagination.current);
+      });
+    }
   };
   onMounted(() => {
     getTableData(tableConfig.pagination.current);
