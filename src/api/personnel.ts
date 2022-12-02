@@ -10,7 +10,7 @@ export interface PagingData {
 
 export interface Res {
   current: number;
-  result: any; // 结果
+  records: any; // 结果
   size: number;
   total: number;
 }

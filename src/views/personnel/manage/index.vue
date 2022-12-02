@@ -150,9 +150,7 @@
           }}</a-typography-paragraph>
         </template>
         <template #time="{ record }">
-          <span>{{
-            dayjs(record.createTime || '').format('YYYY-MM-DD HH:mm')
-          }}</span>
+          <span>{{ dayjs(record.createTime).format('YYYY-MM-DD HH:mm') }}</span>
         </template>
       </a-table>
       <user-edit-modal
@@ -285,7 +283,7 @@
       tableConfig.tableLoading = false;
       tableConfig.pagination.total = res.data.total;
       tableConfig.pagination.current = current;
-      tableData.value = res.data.result;
+      tableData.value = res.data.records;
     });
   };
   /**

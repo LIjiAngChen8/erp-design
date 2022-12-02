@@ -150,6 +150,7 @@
       title: '部门',
       dataIndex: 'deptId',
       slotName: 'dept',
+      width: 200,
     },
     // {
     //   title: '职位',
@@ -177,7 +178,7 @@
       tableConfig.tableLoading = false;
       tableConfig.pagination.total = res.data.total;
       tableConfig.pagination.current = current;
-      tableData.data = res.data.result;
+      tableData.data = res.data.records;
     });
   };
   /**
