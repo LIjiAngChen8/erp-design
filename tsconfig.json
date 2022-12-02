@@ -9,6 +9,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    // "allowSyntheticDefaultImports": true, // 默认导出
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
